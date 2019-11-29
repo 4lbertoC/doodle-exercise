@@ -4,10 +4,9 @@ import { Message } from "./Message";
 import "./Messages.sass";
 
 export const Messages = ({ messages, name }) => {
-  console.log("messages", messages);
   return (
     <div className="wrapper">
-      {messages.map(({ _id, author, message, timestamp, name }) => {
+      {messages.map(({ _id, author, message, timestamp }) => {
         const time = moment(timestamp).format("LLL");
         return (
           <Message

@@ -25,29 +25,43 @@ export default class Chat extends PureComponent {
   };
 
   sendMessage = async () => {
+    const { messageText, name, messages } = this.state;
     const data = {
-      message: "Hello!",
-      author: "Tom"
+      message: messageText,
+      author: name
+    };
+    const options = {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+        token
+      }
     };
     try {
-      const response = await fetch(postMessage, {
-        method: "POST",
-        body: JSON.stringify(data),
-        headers: {
-          "Content-Type": "application/json",
-          token
-        }
-      });
+      const response = await fetch(postMessage, options);
       const json = await response.json();
+      const message = { ...json, timestamp: Date.now() };
+      this.setState({
+        messages: [...messages, message],
+        messageText: ""
+      });
       console.log("Success:", JSON.stringify(json));
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+  getCurrentValue = text => {
+    this.setState({
+      messageText: text
+    });
+  };
+
   componentDidMount() {
     this.fetchMessages();
   }
+
   render() {
     const { messages, name } = this.state;
     return (
@@ -57,7 +71,7 @@ export default class Chat extends PureComponent {
         </main>
         <footer>
           <div className="wrapper input_bottom">
-            <Input />
+            <Input handleMessage={this.getCurrentValue} />
             <Button onClick={this.sendMessage} />
           </div>
         </footer>

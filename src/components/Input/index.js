@@ -3,15 +3,18 @@ import "./Input.sass";
 
 class Input extends PureComponent {
   state = {
-    value: ""
+    inputValue: ""
   };
 
   getValue = e => {
     const { value } = e.target;
-    this.setState({
-      value
-    });
-    console.log(value);
+    const { handleMessage } = this.props;
+    this.setState(
+      {
+        inputValue: value
+      },
+      () => handleMessage(value)
+    );
   };
 
   render() {
