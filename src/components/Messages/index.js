@@ -1,37 +1,24 @@
 import React from "react";
+import moment from "moment";
 import { Message } from "./Message";
 import "./Messages.sass";
 
-const messages = [
-  {
-    timestamp: "123456",
-    text: "lorem",
-    name: "John"
-  },
-  {
-    timestamp: "123456",
-    text: "lorem",
-    name: "John"
-  },
-  {
-    timestamp: "123456",
-    text: "lorem",
-    name: "John"
-  }
-];
-
-export const Messages = ({ messages }) => {
-  console.log(messages);
+export const Messages = ({ messages, name }) => {
+  console.log("messages", messages);
   return (
     <div className="wrapper">
-      {messages.map(message => (
-        <Message
-          key={message.id}
-          timestamp={message.timestamp}
-          text={message.text}
-          name={message.name}
-        />
-      ))}
+      {messages.map(({ _id, author, message, timestamp, name }) => {
+        const time = moment(timestamp).format("LLL");
+        return (
+          <Message
+            key={_id}
+            timestamp={time}
+            message={message}
+            author={author}
+            name={name}
+          />
+        );
+      })}
     </div>
   );
 };

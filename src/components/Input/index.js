@@ -1,4 +1,22 @@
-import React from "react";
+import React, { PureComponent } from "react";
 import "./Input.sass";
 
-export const Input = () => <input type="text" />;
+class Input extends PureComponent {
+  state = {
+    value: ""
+  };
+
+  getValue = e => {
+    const { value } = e.target;
+    this.setState({
+      value
+    });
+    console.log(value);
+  };
+
+  render() {
+    return <input type="text" onChange={this.getValue} />;
+  }
+}
+
+export default Input;
